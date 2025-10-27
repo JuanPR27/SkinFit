@@ -1,0 +1,89 @@
+/* SkinFit - Estilos Personalizados */
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Evita el scroll horizontal en móviles */
+    overflow-x: hidden; 
+}
+
+/* Estilos de encabezados*/
+h1 {
+    letter-spacing: -0.05em; 
+}
+
+/* ----------------------------------------------------- */
+/* 2. Estilos del Formulario (index.html)                */
+/* ----------------------------------------------------- */
+
+/* Contenedor principal del formulario */
+.max-w-2xl {
+    transition: all 0.5s ease-in-out;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); 
+}
+
+/* Estilo para los grupos de campos (fieldset) */
+fieldset {
+    padding: 1.25rem; /* Más espacio interno */
+    border: 1px solid #fbcfe8; /* Borde rosa claro */
+    border-radius: 0.75rem; /* Esquinas más redondeadas */
+    background-color: #fff7fa; /* Fondo muy claro para destacar */
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Estilo para los títulos de los grupos (legend) */
+legend {
+    font-weight: 700; /* Negrita */
+    color: #b47890; /* Rosa oscuro */
+    padding: 0 0.75rem;
+    margin-left: 0.5rem;
+    background-color: #fff7fa; /* El mismo fondo que el fieldset */
+}
+
+/* Mejorar el foco en inputs y selects */
+input:focus, select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.4); /* Anillo de foco rosa suave */
+}
+
+/* Estilo para el botón de envío (ya tiene Tailwind, solo un detalle de transición) */
+button[type="submit"] {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efecto resorte al hacer hover */
+}
+
+/* ----------------------------------------------------- */
+/* 3. Estilos de la Página de Resultados (resultados.html) */
+/* ----------------------------------------------------- */
+
+/* Mejorar el aspecto de los pasos de la rutina */
+.list-decimal li {
+    font-size: 0.95rem; /* Ligeramente más grande */
+    line-height: 1.5;
+    transition: background-color 0.2s;
+}
+
+/* Estilo para los números de la lista */
+.list-decimal li::marker {
+    font-weight: 800; /* Extra negrita */
+    color: #4b5563; /* Gris medio */
+    font-size: 1.1em; /* Más grandes */
+}
+
+/* Fondo para las secciones de rutina */
+.bg-pink-50 {
+    background-color: #fdf2f8; /* Rosa muy pálido, para Mañana */
+}
+
+.bg-indigo-50 {
+    background-color: #eef2ff; /* Azul/Púrpura muy pálido, para Noche */
+}
+
+/* Estilo para los pasos individuales dentro de la lista */
+.list-decimal li.pl-2 {
+    border-left: 3px solid #f9a8d4; /* Línea rosa suave a la izquierda para estructura */
+}
+
+/* Sombra sutil para la nota importante */
+.bg-yellow-50 {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
+}

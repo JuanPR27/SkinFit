@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Rutina Personalizada - SkinFit</title>
+    <!-- Tailwind CSS desde CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Fuente Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-100 min-h-screen p-6">
+
+    <div class="max-w-3xl mx-auto bg-white p-10 rounded-2xl shadow-xl border border-gray-200">
+
+        <!-- Encabezado de Resultados -->
+        <div class="text-center mb-8">
+             <svg class="mx-auto h-16 w-16 text-green-500 mb-3" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h1 class="text-4xl font-bold text-gray-900">¡Tu Rutina SkinFit está Lista!</h1>
+            <p class="text-lg text-gray-600 mt-2">Hola <span class="font-semibold text-pink-600">{{ perfil.nombre }}</span>, aquí tienes tu recomendación personalizada.</p>
+        </div>
+
+        <!-- Resumen del Perfil -->
+        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Resumen de tu Perfil</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <p><strong class="text-gray-600">Edad:</strong> {{ perfil.edad }} años</p>
+                <p><strong class="text-gray-600">Tipo de Piel:</strong> <span class="capitalize">{{ perfil.tipo_piel }}</span></p>
+                <p><strong class="text-gray-600">Condiciones:</strong> {{ perfil.condiciones if perfil.condiciones else 'Ninguna' }}</p>
+                <p><strong class="text-gray-600">Frecuencia:</strong> <span class="capitalize">{{ perfil.frecuencia_rutina.replace('_', ' ') }}</span></p>
+            </div>
+        </div>
+
+        <!-- Rutina Generada -->
+        <div class="space-y-6">
+            <!-- Rutina de Mañana -->
+            <div class="p-4 rounded-lg bg-pink-50 border border-pink-200">
+                <h3 class="text-2xl font-semibold text-pink-600 mb-4 border-b border-pink-300 pb-2">☀️ Rutina de Mañana</h3>
+                {% if rutina.mañana %}
+                    <ol class="list-decimal list-inside space-y-3 text-gray-700 ml-4">
+                        {% for paso in rutina.mañana %}
+                            <li class="pl-2 bg-white p-2 rounded-md shadow-sm">{{ paso }}</li>
+                        {% endfor %}
+                    </ol>
+                {% else %}
+                    <p class="text-gray-500">No se requiere una rutina de mañana compleja para la frecuencia seleccionada.</p>
+                {% endif %}
+            </div>
+
+            <!-- Rutina de Noche -->
+            <div class="p-4 rounded-lg bg-indigo-50 border border-indigo-200">
+                <h3 class="text-2xl font-semibold text-indigo-600 mb-4 border-b border-indigo-300 pb-2">🌙 Rutina de Noche</h3>
+                 {% if rutina.noche %}
+                    <ol class="list-decimal list-inside space-y-3 text-gray-700 ml-4">
+                        {% for paso in rutina.noche %}
+                            <li class="pl-2 bg-white p-2 rounded-md shadow-sm">{{ paso }}</li>
+                        {% endfor %}
+                    </ol>
+                {% else %}
+                     <p class="text-gray-500">No se requiere una rutina de noche compleja para la frecuencia seleccionada.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Nota Importante -->
+        <div class="mt-10 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800 text-sm">
+            <p><strong class="font-semibold">Importante:</strong> Esta es una rutina básica sugerida. Introduce nuevos productos gradualmente y observa la reacción de tu piel. Consulta a un dermatólogo si tienes dudas o condiciones persistentes.</p>
+        </div>
+
+        <!-- Botón para volver -->
+        <div class="mt-8 text-center">
+            <a href="{{ url_for('index') }}"
+               class="inline-block py-3 px-8 border border-transparent rounded-md shadow-lg text-lg font-medium text-white bg-gray-600 hover:bg-gray-700 transition duration-300 ease-in-out transform hover:-translate-y-0.5">
+               ← Volver al Inicio
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>
