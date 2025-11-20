@@ -1,0 +1,170 @@
+/* --- ESTILOS DE ANIMACIÓN (CRUCIALES PARA LAS TRANSICIONES) --- */
+
+/* Estilos base de tipografía */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.font-title {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Keyframes: Animación de entrada (desde derecha) */
+@keyframes slide-in-right {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-slide-in-right {
+    animation: slide-in-right 0.5s ease-out forwards;
+}
+
+/* Keyframes: Animación de salida (hacia izquierda) */
+@keyframes slide-out-left {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+}
+
+.animate-slide-out-left {
+    animation: slide-out-left 0.5s ease-in forwards;
+}
+
+/* Keyframes: Animación de carga o pulso (para el botón de envío) */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
+    }
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Keyframes: Animación de entrada desde abajo */
+@keyframes fade-in-down {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-down {
+    animation: fade-in-down 0.6s ease-out forwards;
+}
+
+/* --- CLASES CRUCIALES PARA LAS DIMENSIONES --- */
+
+/* Contenedor del formulario: Permite la posición relativa para los pasos */
+#skinfit-form {
+    position: relative;
+    min-height: 350px;
+    /* Altura inicial, ajustada por JS */
+    transition: min-height 0.5s ease-in-out;
+    padding-bottom: 5rem;
+    /* Espacio para los botones inferiores */
+}
+
+/* Los pasos de formulario se posicionan absolutamente por defecto */
+.form-step {
+    transition: opacity 0.5s, transform 0.5s;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* El paso ACTIVO debe ser static para que el formulario tome su altura */
+.form-step.active {
+    position: static !important;
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Los pasos inactivos están absolutamente posicionados y ocultos */
+.form-step:not(.active) {
+    position: absolute !important;
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* --- ESTILOS ADICIONALES PARA EL FORMULARIO --- */
+.shadow-3xl {
+    box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.step-input {
+    transition: all 0.3s ease;
+}
+
+.step-input:focus {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+}
+
+/* Estilos para el indicador de pasos activo */
+.step-indicator-active {
+    background-color: rgb(236, 72, 153);
+    transform: scale(1.1);
+}
+
+.step-indicator-inactive {
+    background-color: rgb(209, 213, 219);
+}
+
+/* Estilos para mensajes flash */
+.flash-error {
+    background-color: rgb(254, 226, 226);
+    color: rgb(153, 27, 27);
+}
+
+.flash-success {
+    background-color: rgb(220, 252, 231);
+    color: rgb(22, 101, 52);
+}
+
+/* Estilos para campos de formulario con hover */
+.form-fieldset {
+    transition: all 0.3s ease;
+}
+
+.form-fieldset:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Estilos para botones de navegación */
+.btn-primary {
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: rgb(249, 250, 251);
+}

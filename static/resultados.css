@@ -1,0 +1,485 @@
+/* static/resultados.css */
+/* Estilos para la página de resultados de SkinFit */
+
+/* Variables de colores consistentes */
+:root {
+    --pink-50: #fdf2f8;
+    --pink-100: #fce7f3;
+    --pink-500: #ec4899;
+    --pink-600: #db2777;
+    --pink-700: #be185d;
+    --purple-50: #faf5ff;
+    --purple-100: #f3e8ff;
+    --purple-500: #a855f7;
+    --purple-600: #9333ea;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --green-600: #ec4899;
+    --green-700: #ec4899;
+    --yellow-100: #fef3c7;
+    --yellow-500: #d97706;
+    --yellow-800: #92400e;
+}
+
+/* Estilos base */
+.results-body {
+    background: linear-gradient(135deg, var(--pink-100) 0%, var(--purple-100) 50%, var(--pink-100) 100%);
+    min-height: 100vh;
+    padding: 1rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+@media (min-width: 640px) {
+    .results-body {
+        padding: 2rem;
+        align-items: center;
+    }
+}
+
+.results-container {
+    max-width: 80rem;
+    width: 100%;
+    margin: 0 auto;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 2rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--gray-200);
+    transition: all 0.5s ease;
+}
+
+.results-container:hover {
+    transform: scale(1.005);
+}
+
+@media (min-width: 640px) {
+    .results-container {
+        padding: 2.5rem;
+    }
+}
+
+/* Encabezado */
+.results-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.results-logo {
+    height: 5rem;
+    width: 5rem;
+    margin: 0 auto 0.75rem;
+    border-radius: 9999px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.results-logo:hover {
+    transform: scale(1.05);
+}
+
+.results-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--pink-700);
+    letter-spacing: -0.025em;
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+    .results-title {
+        font-size: 3.75rem;
+    }
+}
+
+.results-subtitle {
+    font-size: 1.125rem;
+    color: var(--gray-500);
+    margin-top: 1rem;
+    max-width: 28rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Resumen del Perfil */
+.profile-summary {
+    background: linear-gradient(135deg, var(--purple-50) 0%, var(--pink-50) 100%);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    margin-bottom: 2.5rem;
+    border-left: 4px solid var(--purple-500);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+.profile-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--purple-700);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.profile-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 640px) {
+    .profile-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .profile-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.profile-item {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
+.profile-label {
+    font-weight: 700;
+    color: var(--purple-900);
+}
+
+/* Rutinas */
+.routines-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+@media (min-width: 1024px) {
+    .routines-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.routine-card {
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    border: 2px solid;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.am-routine {
+    background: var(--pink-50);
+    border-color: var(--pink-300);
+}
+
+.pm-routine {
+    background: var(--purple-50);
+    border-color: var(--purple-300);
+}
+
+.routine-title {
+    font-size: 1.875rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid;
+    padding-bottom: 0.5rem;
+}
+
+.am-routine .routine-title {
+    color: var(--pink-700);
+    border-color: var(--pink-200);
+}
+
+.pm-routine .routine-title {
+    color: var(--purple-700);
+    border-color: var(--purple-200);
+}
+
+.routine-icon {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.75rem;
+}
+
+.am-routine .routine-icon {
+    color: var(--yellow-500);
+}
+
+.pm-routine .routine-icon {
+    color: var(--purple-600);
+}
+
+.routine-steps {
+    space-y: 1rem;
+}
+
+.routine-step {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.routine-step:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transform: translateX(0.25rem);
+}
+
+.am-routine .routine-step {
+    background: linear-gradient(to right, white, var(--pink-50));
+    border-color: var(--pink-200);
+}
+
+.pm-routine .routine-step {
+    background: linear-gradient(to right, white, var(--purple-50));
+    border-color: var(--purple-200);
+}
+
+.step-number {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--pink-500);
+    color: white;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-right: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.pm-routine .step-number {
+    background: var(--purple-500);
+}
+
+.step-text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--gray-800);
+}
+
+.routine-tip {
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: var(--gray-500);
+}
+
+/* Productos */
+.products-section {
+    margin-top: 3rem;
+    border-top: 1px solid var(--gray-200);
+    padding-top: 2rem;
+    animation: fadeInUp 0.6s ease-out 0.3s both;
+}
+
+.products-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--gray-800);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.skinfit-analytics {
+    color: var(--green-600);
+}
+
+.products-subtitle {
+    font-size: 1.125rem;
+    color: var(--gray-600);
+    text-align: center;
+    margin-bottom: 2rem;
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.product-card {
+    background: white;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--gray-200);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transform: translateY(-0.25rem);
+}
+
+.product-brand {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gray-500);
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+}
+
+.product-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+}
+
+.product-description {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    margin-bottom: 1rem;
+}
+
+.product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.product-price {
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: var(--green-600);
+}
+
+.buy-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1.25rem;
+    border: transparent;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: white;
+    background: var(--green-600);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.buy-button:hover {
+    background: var(--green-700);
+    transform: scale(1.05);
+    color: white;
+}
+
+.button-icon {
+    width: 1rem;
+    height: 1rem;
+    margin-left: 0.5rem;
+}
+
+.no-products {
+    grid-column: 1 / -1;
+    background: var(--yellow-100);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    color: var(--yellow-800);
+    border: 1px solid var(--yellow-500);
+}
+
+/* Nota Importante */
+.important-note {
+    margin-top: 2.5rem;
+    padding: 1.25rem;
+    background: var(--yellow-100);
+    border-left: 4px solid var(--yellow-500);
+    border-radius: 0.5rem;
+    color: var(--yellow-800);
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+/* Botón Nueva Rutina */
+.new-routine-button {
+    margin-top: 2.5rem;
+    text-align: center;
+    animation: fadeInUp 0.6s ease-out 0.5s both;
+}
+
+.generate-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 2.5rem;
+    border: transparent;
+    border-radius: 9999px;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: white;
+    background: var(--gray-600);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.generate-button:hover {
+    background: var(--gray-700);
+    transform: scale(1.05);
+    color: white;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
