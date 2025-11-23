@@ -1,62 +1,49 @@
-/* --- ESTILOS DE ANIMACIÓN (CRUCIALES PARA LAS TRANSICIONES) --- */
+/* static/formulario.css */
+/* Estilos específicos para el formulario multi-paso de SkinFit */
 
-/* Estilos base de tipografía */
-body {
-    font-family: 'Inter', sans-serif;
+/* Variables de colores consistentes */
+:root {
+    --pink-50: #fdf2f8;
+    --pink-100: #fce7f3;
+    --pink-300: #f9a8d4;
+    --pink-400: #f472b6;
+    --pink-500: #ec4899;
+    --pink-600: #db2777;
+    --pink-700: #be185d;
+    --purple-50: #faf5ff;
+    --purple-100: #f3e8ff;
+    --purple-300: #d8b4fe;
+    --purple-400: #c084fc;
+    --purple-500: #a855f7;
+    --purple-600: #9333ea;
+    --purple-700: #7c3aed;
+    --indigo-50: #eef2ff;
+    --indigo-100: #e0e7ff;
+    --indigo-300: #a5b4fc;
+    --indigo-400: #818cf8;
+    --indigo-500: #6366f1;
+    --indigo-600: #4f46e5;
+    --indigo-700: #4338ca;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --green-500: #10b981;
+    --red-500: #ef4444;
 }
 
+/* Fuentes personalizadas */
 .font-title {
     font-family: 'Playfair Display', serif;
 }
 
-/* Keyframes: Animación de entrada (desde derecha) */
-@keyframes slide-in-right {
-    from {
-        opacity: 0;
-        transform: translateX(100%);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.animate-slide-in-right {
-    animation: slide-in-right 0.5s ease-out forwards;
-}
-
-/* Keyframes: Animación de salida (hacia izquierda) */
-@keyframes slide-out-left {
-    from {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateX(-100%);
-    }
-}
-
-.animate-slide-out-left {
-    animation: slide-out-left 0.5s ease-in forwards;
-}
-
-/* Keyframes: Animación de carga o pulso (para el botón de envío) */
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: .5;
-    }
-}
-
-.animate-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Keyframes: Animación de entrada desde abajo */
-@keyframes fade-in-down {
+/* Animaciones */
+@keyframes fadeInDown {
     from {
         opacity: 0;
         transform: translateY(-20px);
@@ -67,104 +54,271 @@ body {
     }
 }
 
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 .animate-fade-in-down {
-    animation: fade-in-down 0.6s ease-out forwards;
+    animation: fadeInDown 0.6s ease-out;
 }
 
-/* --- CLASES CRUCIALES PARA LAS DIMENSIONES --- */
-
-/* Contenedor del formulario: Permite la posición relativa para los pasos */
-#skinfit-form {
-    position: relative;
-    min-height: 350px;
-    /* Altura inicial, ajustada por JS */
-    transition: min-height 0.5s ease-in-out;
-    padding-bottom: 5rem;
-    /* Espacio para los botones inferiores */
-}
-
-/* Los pasos de formulario se posicionan absolutamente por defecto */
-.form-step {
-    transition: opacity 0.5s, transform 0.5s;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-}
-
-/* El paso ACTIVO debe ser static para que el formulario tome su altura */
-.form-step.active {
-    position: static !important;
-    visibility: visible;
-    opacity: 1;
-}
-
-/* Los pasos inactivos están absolutamente posicionados y ocultos */
-.form-step:not(.active) {
-    position: absolute !important;
-    visibility: hidden;
-    opacity: 0;
-}
-
-/* --- ESTILOS ADICIONALES PARA EL FORMULARIO --- */
+/* Sombras personalizadas */
 .shadow-3xl {
-    box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
+/* Estados de los campos del formulario */
 .step-input {
     transition: all 0.3s ease;
 }
 
 .step-input:focus {
-    transform: scale(1.02);
     box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
 }
 
-/* Estilos para el indicador de pasos activo */
+.step-input:hover {
+    border-color: var(--pink-400);
+}
+
+/* Campos de formulario con estados de validación */
+.step-input:invalid:not(:focus):not(:placeholder-shown) {
+    border-color: var(--red-500);
+}
+
+.step-input:valid:not(:focus):not(:placeholder-shown) {
+    border-color: var(--green-500);
+}
+
+/* Estilos para los fieldset */
+.form-fieldset {
+    transition: all 0.5s ease;
+}
+
+/* Contenedor de pasos del formulario */
+.form-step {
+    display: none;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.5s ease;
+}
+
+.form-step.active {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Transiciones entre pasos */
+.form-step.slide-out-left {
+    animation: slideInLeft 0.5s ease forwards;
+}
+
+.form-step.slide-out-right {
+    animation: slideInRight 0.5s ease forwards;
+}
+
+/* Indicador de pasos */
 .step-indicator-active {
-    background-color: rgb(236, 72, 153);
+    background: linear-gradient(45deg, var(--pink-500), var(--purple-500));
     transform: scale(1.1);
 }
 
 .step-indicator-inactive {
-    background-color: rgb(209, 213, 219);
+    background-color: var(--gray-300);
 }
 
-/* Estilos para mensajes flash */
-.flash-error {
-    background-color: rgb(254, 226, 226);
-    color: rgb(153, 27, 27);
-}
-
-.flash-success {
-    background-color: rgb(220, 252, 231);
-    color: rgb(22, 101, 52);
-}
-
-/* Estilos para campos de formulario con hover */
-.form-fieldset {
-    transition: all 0.3s ease;
-}
-
-.form-fieldset:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-/* Estilos para botones de navegación */
+/* Botones */
 .btn-primary {
-    transition: all 0.3s ease;
+    background: linear-gradient(45deg, var(--pink-500), var(--pink-600));
+    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
 }
 
 .btn-primary:hover {
-    transform: scale(1.05);
+    background: linear-gradient(45deg, var(--pink-600), var(--pink-700));
+    box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
 }
 
 .btn-secondary {
-    transition: all 0.3s ease;
+    background: white;
+    border: 2px solid var(--gray-300);
 }
 
 .btn-secondary:hover {
-    background-color: rgb(249, 250, 251);
+    border-color: var(--pink-400);
+    background: var(--pink-50);
+}
+
+/* Mensajes Flash */
+.flash-error {
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    border: 1px solid #fca5a5;
+    color: #dc2626;
+}
+
+.flash-success {
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    border: 1px solid #6ee7b7;
+    color: #065f46;
+}
+
+/* Estilos para las opciones de rutina unificada */
+.routine-option-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.routine-option-card input:checked + .routine-option-content {
+    border-color: var(--indigo-500);
+    background: linear-gradient(135deg, var(--indigo-50), var(--purple-50));
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.3);
+}
+
+.routine-option-content {
+    border: 2px solid var(--gray-200);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background: white;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.routine-option-card:hover .routine-option-content {
+    border-color: var(--indigo-300);
+    transform: translateY(-2px);
+}
+
+.routine-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.routine-option-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--gray-800);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.routine-option-description {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    text-align: center;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.routine-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.routine-features li {
+    font-size: 0.75rem;
+    color: var(--gray-600);
+    padding: 0.25rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.routine-features li::before {
+    content: "✓";
+    color: var(--green-500);
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+/* Checkboxes personalizados */
+input[type="checkbox"] {
+    accent-color: var(--pink-500);
+}
+
+/* Select personalizado */
+select.step-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+/* Mejora responsive */
+@media (max-width: 768px) {
+    .routine-option-content {
+        padding: 1rem;
+    }
+    
+    .routine-option-title {
+        font-size: 1rem;
+    }
+    
+    .routine-features li {
+        font-size: 0.7rem;
+    }
+    
+    .grid.grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Efectos de carga */
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Placeholders animados */
+.step-input::placeholder {
+    color: var(--gray-400);
+    transition: color 0.3s ease;
+}
+
+.step-input:focus::placeholder {
+    color: var(--gray-300);
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    .form-step,
+    .step-input,
+    .btn-primary,
+    .btn-secondary {
+        transition: none;
+        animation: none;
+    }
+}
+
+/* Estados de foco mejorados */
+.step-input:focus,
+select:focus,
+input[type="checkbox"]:focus,
+input[type="radio"]:focus {
+    outline: 2px solid var(--pink-500);
+    outline-offset: 2px;
 }

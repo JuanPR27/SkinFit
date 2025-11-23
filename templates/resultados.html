@@ -4,173 +4,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkinFit - Tu Rutina Personalizada</title>
+    <title>SkinFit AI - Tu Rutina Personalizada</title>
 
-    <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- CSS específico para resultados -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='resultados.css') }}">
-
-    <!-- Fuentes -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
     <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/png">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f4ff',
+                            500: '#667eea',
+                            600: '#5a67d8',
+                            700: '#4c51bf'
+                        },
+                        gray: {
+                            50: '#f9fafb',
+                            100: '#f3f4f6',
+                            200: '#e5e7eb',
+                            300: '#d1d5db',
+                            400: '#9ca3af',
+                            500: '#6b7280',
+                            600: '#4b5563',
+                            700: '#374151',
+                            800: '#1f2937',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+                        'card': '0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
-<body class="results-body">
-
-    <div class="results-container">
-
-        <!-- Encabezado -->
-        <div class="results-header">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo SkinFit" class="results-logo">
-            <h1 class="results-title">
-                ¡Tu Rutina Personalizada está Lista!
-            </h1>
-            <p class="results-subtitle">
-                Hola <strong class="text-pink-600">{{ perfil.nombre.capitalize() }}</strong>, aquí está tu guía de SkinFit.
+<body class="font-sans bg-gray-50 min-h-screen py-8">
+    <div class="container mx-auto px-4 max-w-6xl">
+        
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="flex justify-center items-center mb-6">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="SkinFit AI" 
+                     class="w-16 h-16 rounded-xl shadow-card border-4 border-white">
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-3">¡Tu Rutina Personalizada está Lista!</h1>
+            <p class="text-gray-600 text-lg">
+                Hola <strong class="text-primary-600">{{ perfil.nombre.capitalize() }}</strong>, aquí está tu guía de SkinFit AI
             </p>
         </div>
 
-        <!-- Resumen del Perfil -->
-        <div class="profile-summary">
-            <h2 class="profile-title">
-                <svg class="profile-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+        <!-- Profile Summary -->
+        <div class="bg-white rounded-xl shadow-card border border-gray-100 p-6 mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                 </svg>
                 Resumen de tu Perfil
             </h2>
-            <div class="profile-grid">
-                <div class="profile-item">
-                    <span class="profile-label">Edad:</span> {{ perfil.edad }} años
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                    <div class="text-sm text-gray-600 mb-1">Edad</div>
+                    <div class="font-semibold text-gray-900">{{ perfil.edad }} años</div>
                 </div>
-                <div class="profile-item">
-                    <span class="profile-label">Tipo de Piel:</span> {{ perfil.tipo_piel.capitalize() }}
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                    <div class="text-sm text-gray-600 mb-1">Tipo de Piel</div>
+                    <div class="font-semibold text-gray-900">{{ perfil.tipo_piel.capitalize() }}</div>
                 </div>
-                <div class="profile-item">
-                    <span class="profile-label">Frecuencia:</span> <span class="capitalize">{{ perfil.frecuencia_rutina.replace('_', ' ') }}</span>
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                    <div class="text-sm text-gray-600 mb-1">Frecuencia</div>
+                    <div class="font-semibold text-gray-900 capitalize">{{ perfil.frecuencia_rutina.replace('_', ' ') }}</div>
                 </div>
-                <div class="profile-item">
-                    <span class="profile-label">Condiciones:</span> <span class="text-pink-600">{{ perfil.condiciones if perfil.condiciones else 'Ninguna' }}</span>
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                    <div class="text-sm text-gray-600 mb-1">Condiciones</div>
+                    <div class="font-semibold text-primary-600">{{ perfil.condiciones if perfil.condiciones else 'Ninguna' }}</div>
                 </div>
             </div>
         </div>
 
-        <!-- Rutinas AM y PM -->
-        <div class="routines-grid">
-            <!-- Rutina AM -->
-            <div class="routine-card am-routine">
-                <h3 class="routine-title">
-                    <svg class="routine-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2a10 10 0 0110 10h-2a8 8 0 00-8-8V2zM12 20a8 8 0 008-8h2a10 10 0 01-10 10V20z"></path>
+        <!-- Unified Routine -->
+        <div class="bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl shadow-card text-white mb-8">
+            <div class="p-8">
+                <h2 class="text-2xl font-semibold mb-2 flex items-center">
+                    <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 4.58V4c0-1.1.9-2 2-2h2a2 2 0 012 2v.58a8 8 0 011.92 1.11l.5-.29a2 2 0 012.74.73l1 1.74a2 2 0 01-.73 2.73l-.5.29a8.06 8.06 0 010 2.22l.5.3a2 2 0 01.73 2.72l-1 1.74a2 2 0 01-2.73.73l-.5-.3A8 8 0 0115 19.43V20a2 2 0 01-2 2h-2a2 2 0 01-2-2v-.58a8 8 0 01-1.92-1.11l-.5.29a2 2 0 01-2.74-.73l-1-1.74a2 2 0 01.73-2.73l.5-.29a8.06 8.06 0 010-2.22l-.5-.3a2 2 0 01-.73-2.72l1-1.74a2 2 0 012.73-.73l.5.3A8 8 0 019 4.57z"/>
                     </svg>
-                    Rutina AM (Mañana)
-                </h3>
-                
-                <ul class="routine-steps">
-                    {% for paso in rutina.mañana %}
-                    <li class="routine-step">
-                        <span class="step-number">
-                            {{ loop.index }}
-                        </span>
-                        <span class="step-text">
-                            {{ paso }}
-                        </span>
-                    </li>
-                    {% endfor %}
-                </ul>
-                <p class="routine-tip">
-                    ✨ <strong>Tip:</strong> Siempre finaliza con protector solar, es tu mejor herramienta anti-envejecimiento.
-                </p>
-            </div>
+                    Tu Rutina Personalizada de Skincare
+                </h2>
+                <p class="text-primary-100 mb-6">Sigue estos pasos para una piel saludable y radiante</p>
 
-            <!-- Rutina PM -->
-            <div class="routine-card pm-routine">
-                <h3 class="routine-title">
-                    <svg class="routine-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                    Rutina PM (Noche)
-                </h3>
-                
-                <ul class="routine-steps">
-                    {% for paso in rutina.noche %}
-                    <li class="routine-step">
-                        <span class="step-number">
-                            {{ loop.index }}
-                        </span>
-                        <span class="step-text">
-                            {{ paso }}
-                        </span>
-                    </li>
+                <div class="space-y-4">
+                    {% for paso in rutina.pasos %}
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-8 h-8 bg-white text-primary-600 rounded-full flex items-center justify-center font-semibold text-sm mr-4">
+                                {{ paso.orden }}
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-white mb-1">{{ paso.nombre }}</h3>
+                                <p class="text-primary-100 text-sm">{{ paso.descripcion }}</p>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
-                </ul>
-                <p class="routine-tip">
-                    🌙 <strong>Tip:</strong> La doble limpieza es esencial si usas maquillaje o protector solar.
-                </p>
+                </div>
+
+                <div class="mt-6 bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <span class="text-lg mr-3">☀️</span>
+                            <div>
+                                <strong>Para el día:</strong> Sigue todos los pasos, especialmente el protector solar.
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-lg mr-3">🌙</span>
+                            <div>
+                                <strong>Para la noche:</strong> Puedes omitir el protector solar y enfocarte en los tratamientos activos.
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-lg mr-3">💧</span>
+                            <div>
+                                <strong>Exfoliación:</strong> Recuerda usar exfoliantes solo 1-3 veces por semana según tu frecuencia.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Productos Sugeridos -->
-        <div class="products-section">
-            <h2 class="products-title">
-                🛒 Productos Sugeridos por <span class="skinfit-analytics">SkinFit Analytics</span>
-            </h2>
-            <p class="products-subtitle">
-                Tu rutina ahora es más fácil. Nuestro algoritmo (Ciencia de Datos) ha seleccionado productos basados en tu perfil y nuestra base de datos.
-            </p>
+        <!-- Recommended Products -->
+        {% if productos %}
+        <div class="bg-white rounded-xl shadow-card border border-gray-100 p-8 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-2">Productos Recomendados</h2>
+            <p class="text-gray-600 mb-6">Nuestro algoritmo ha seleccionado estos productos específicamente para tu perfil</p>
 
-            <div class="products-grid">
-                {% if productos %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for product in productos %}
-                <div class="product-card">
-                    <div class="product-brand">{{ product.brand.upper() | default("MARCA DESCONOCIDA") }}</div>
-                    <h4 class="product-name">{{ product.product_name | default("Nombre de Producto") }}</h4>
-                    <p class="product-description">
-                        Ideal para Piel {{ perfil.tipo_piel.capitalize() }} y tratar {{ perfil.condiciones | default('Mantenimiento') }}.
-                    </p>
-                    
-                    <div class="product-footer">
-                        <span class="product-price">
-                            {{ product.price | default("Consultar precio") }}
+                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:border-primary-300 transition-colors duration-200">
+                    <div class="flex items-start justify-between mb-3">
+                        <span class="text-xs font-medium text-primary-600 bg-primary-50 px-2 py-1 rounded">
+                            {% if product.paso_recomendado %}Paso {{ product.orden_paso }}{% else %}Recomendado{% endif %}
                         </span>
+                    </div>
+                    
+                    <div class="text-center mb-4">
+                        <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">{{ product.brand }}</div>
+                        <h3 class="font-semibold text-gray-900 text-sm leading-tight mb-2">{{ product.product_name }}</h3>
                         
-                        <a href="{{ product.link | default('#') }}" target="_blank" class="buy-button">
-                            Comprar Ahora
-                            <svg class="button-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                            </svg>
+                        {% if product.paso_recomendado %}
+                        <div class="text-xs text-gray-600 bg-gray-100 rounded px-2 py-1 inline-block">
+                            Para: {{ product.paso_recomendado }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-primary-600">{{ product.price_display }}</span>
+                        <a href="{{ product.link }}" target="_blank" 
+                           class="bg-primary-600 text-white px-3 py-1 rounded text-sm font-medium hover:bg-primary-700 transition-colors duration-200">
+                            Ver Producto
                         </a>
                     </div>
                 </div>
                 {% endfor %}
-                {% else %}
-                <div class="no-products">
-                    <p>⚠️ <strong>El algoritmo de recomendación se ejecutó pero no encontró productos compatibles.</strong> Esto podría deberse a que tu archivo de datos (CSV) no tiene entradas para tu tipo de piel o las columnas no coinciden exactamente con el código Python (Revisa <code>ai_service/recommender.py</code>).</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Important Note -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mb-8">
+            <div class="flex items-start">
+                <svg class="w-5 h-5 text-yellow-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                <div>
+                    <h3 class="font-semibold text-yellow-800 mb-1">Nota Importante</h3>
+                    <p class="text-yellow-700 text-sm">
+                        Esta es una rutina sugerida generada por nuestro sistema inteligente. Los productos son recomendaciones 
+                        basadas en tu perfil. Introduce nuevos productos gradualmente y prueba la tolerancia. Si tienes condiciones 
+                        médicas, consulta siempre a un dermatólogo.
+                    </p>
                 </div>
-                {% endif %}
             </div>
         </div>
 
-        <!-- Nota Importante -->
-        <div class="important-note">
-            <p><strong>⚠️ Nota Importante:</strong> Esta es una rutina sugerida generada por lógica. Los productos son recomendaciones del algoritmo de Ciencia de Datos. Introduce nuevos productos gradualmente y prueba la tolerancia. Si tienes condiciones médicas, consulta siempre a un dermatólogo.</p>
-        </div>
-
-        <!-- Botón para Generar Nueva Rutina -->
-        <div class="new-routine-button">
-            <a href="{{ url_for('index') }}" class="generate-button">
-                <svg class="button-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"></path>
+        <!-- New Routine Button -->
+        <div class="text-center">
+            <a href="{{ url_for('index') }}" 
+               class="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors duration-200 shadow-soft">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                 </svg>
-                Generar una Rutina Nueva
+                Generar Nueva Rutina
             </a>
         </div>
-
     </div>
 
+    <script>
+        // Currency switcher functionality
+        function changeCurrency(button, currency) {
+            document.querySelectorAll('.currency-btn').forEach(btn => btn.classList.remove('bg-primary-600', 'text-white'));
+            button.classList.add('bg-primary-600', 'text-white');
+            
+            document.querySelectorAll('[class*="-price"]').forEach(price => price.style.display = 'none');
+            document.querySelectorAll(`.${currency}-price`).forEach(price => price.style.display = 'block');
+        }
+
+        // Initialize with USD
+        document.addEventListener('DOMContentLoaded', function() {
+            const usdBtn = document.querySelector('[data-currency="usd"]');
+            if (usdBtn) changeCurrency(usdBtn, 'usd');
+        });
+    </script>
 </body>
 </html>

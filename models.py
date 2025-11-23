@@ -50,3 +50,28 @@ class PerfilUsuario:
         """
         return f"<PerfilUsuario nombre='{self.nombre}', tipo_piel='{self.tipo_piel}', condiciones='{self.condiciones}'>"
 
+
+class RutinaPersonalizada:
+    """
+    Nueva clase para representar una rutina general unificada
+    """
+    def __init__(self, perfil: PerfilUsuario):
+        self.perfil = perfil
+        self.pasos = []  # Lista de pasos ordenados
+        self.productos_recomendados = []  # Productos específicos del CSV
+    
+    def agregar_paso(self, nombre_paso: str, descripcion: str, tipo_producto: str = None):
+        """Agrega un paso a la rutina con información del tipo de producto necesario"""
+        self.pasos.append({
+            "orden": len(self.pasos) + 1,
+            "nombre": nombre_paso,
+            "descripcion": descripcion,
+            "tipo_producto": tipo_producto  # Ej: "limpiador", "serum", "protector_solar"
+        })
+    
+    def to_dict(self):
+        return {
+            "perfil": self.perfil.to_dict(),
+            "pasos": self.pasos,
+            "productos_recomendados": self.productos_recomendados
+        }

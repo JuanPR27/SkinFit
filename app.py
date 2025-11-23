@@ -1,46 +1,134 @@
-# app.py (VERSIÓN CORREGIDA Y MEJORADA)
+# app.py (VERSIÓN FINAL CON RUTINA UNIFICADA)
 
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import sqlite3
 import json 
 
-# Importaciones de módulos locales (asumiendo que database.py y models.py están bien)
+# Importaciones de módulos locales
 from database import get_db_connection, crear_o_actualizar_tabla_perfiles 
-from models import PerfilUsuario 
-# <<< IMPORTANTE >>> Importamos el recomendador
-from ai_service.recommender import recommend_products 
+from models import PerfilUsuario, RutinaPersonalizada
+from ai_service.recommender import recommend_products_for_routine, recommend_products
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dev_secret_key_skinfit_12345'
 
-# --- 💡 Lógica de Generación de Rutina de Texto ---
+# --- 💡 Lógica de Generación de Rutina General Unificada ---
 
-def generar_rutina_texto(perfil: PerfilUsuario) -> dict:
+def generar_rutina_unificada(perfil: PerfilUsuario) -> RutinaPersonalizada:
     """
-    Genera una rutina estándar basada en el tipo de piel (Lógica SIMPLE para texto).
+    Genera una rutina general personalizada basada en el perfil.
+    Ahora devuelve un objeto RutinaPersonalizada en lugar de un dict separado.
     """
+    rutina = RutinaPersonalizada(perfil)
     tipo = perfil.tipo_piel.lower()
+    condiciones_list = perfil.get_condiciones_list()
     
-    # Lógica simplificada basada en Tipo de Piel y Condición principal
-    rutina = {
-        "mañana": [
-            f"Limpiador: Usa un limpiador en { 'gel o espuma' if 'grasa' in tipo or 'mixta' in tipo else 'crema o leche' }.",
-            "Antioxidante: Sérum de Vitamina C. Clave para proteger la piel.",
-            "Protector Solar: FPS 50+ de amplio espectro (¡El paso más importante!)."
-        ],
-        "noche": [
-            "Doble Limpieza: Si usaste protector solar o maquillaje, comienza con un aceite o bálsamo.",
-            f"Tratamiento: Aplica un activo como {'Ácido Salicílico (BHA)' if 'acne' in perfil.condiciones.lower() else 'Retinol o Peptidos'}.",
-            "Hidratación: Crema de noche para sellar los tratamientos y restaurar la barrera."
-        ]
+    # Mapeo de compatibilidad con valores antiguos
+    frecuencia_map = {
+        'diaria': 'intermedia',
+        'solo_noche': 'basica', 
+        'minima': 'basica',
+        'basica': 'basica',
+        'intermedia': 'intermedia',
+        'avanzada': 'avanzada'
     }
+    
+    frecuencia = frecuencia_map.get(perfil.frecuencia_rutina, 'basica')
+    
+    # PASO 1: Limpieza (siempre necesario)
+    if 'grasa' in tipo or 'mixta' in tipo:
+        rutina.agregar_paso(
+            "Limpieza", 
+            "Usa un limpiador en gel o espuma para eliminar impurezas sin resecar",
+            "limpiador"
+        )
+    else:
+        rutina.agregar_paso(
+            "Limpieza", 
+            "Usa un limpiador suave en crema o leche para limpiar sin dañar la barrera cutánea",
+            "limpiador"
+        )
+    
+    # PASO 2: Exfoliación (depende de frecuencia y condiciones)
+    if frecuencia in ['avanzada', 'intermedia'] and len(condiciones_list) > 0:
+        if 'acne' in [c.lower() for c in condiciones_list]:
+            rutina.agregar_paso(
+                "Exfoliación", 
+                "Exfolia 2-3 veces por semana con un producto que contenga Ácido Salicílico (BHA)",
+                "exfoliante"
+            )
+        elif 'manchas' in [c.lower() for c in condiciones_list]:
+            rutina.agregar_paso(
+                "Exfoliación", 
+                "Exfolia 1-2 veces por semana con un producto que contenga Ácido Glicólico (AHA)",
+                "exfoliante"
+            )
+        else:
+            rutina.agregar_paso(
+                "Exfoliación", 
+                "Exfolia 1-2 veces por semana con un exfoliante suave para renovar la piel",
+                "exfoliante"
+            )
+    
+    # PASO 3: Tratamiento/Serum (personalizado por condiciones)
+    if 'acne' in [c.lower() for c in condiciones_list]:
+        rutina.agregar_paso(
+            "Tratamiento", 
+            "Aplica un serum con Niacinamida o Ácido Salicílico para controlar el acné",
+            "serum"
+        )
+    elif 'manchas' in [c.lower() for c in condiciones_list]:
+        rutina.agregar_paso(
+            "Tratamiento", 
+            "Aplica un serum con Vitamina C o Ácido Kójico para uniformar el tono",
+            "serum"
+        )
+    elif 'seca' in tipo:
+        rutina.agregar_paso(
+            "Tratamiento", 
+            "Aplica un serum hidratante con Ácido Hialurónico para reponer humedad",
+            "serum"
+        )
+    else:
+        rutina.agregar_paso(
+            "Tratamiento", 
+            "Aplica un serum antioxidante para proteger y mejorar la textura",
+            "serum"
+        )
+    
+    # PASO 4: Hidratación (siempre necesario)
+    if 'grasa' in tipo:
+        rutina.agregar_paso(
+            "Hidratación", 
+            "Usa una crema ligera en gel o textura oil-free que no obstruya poros",
+            "crema_hidratante"
+        )
+    elif 'seca' in tipo:
+        rutina.agregar_paso(
+            "Hidratación", 
+            "Usa una crema nutritiva con ceramidas para restaurar la barrera lipídica",
+            "crema_hidratante"
+        )
+    else:  # mixta o normal
+        rutina.agregar_paso(
+            "Hidratación", 
+            "Usa una crema de textura media que equilibre las zonas secas y grasas",
+            "crema_hidratante"
+        )
+    
+    # PASO 5: Protección Solar (SOLO si es de día, pero lo mantenemos como paso general)
+    rutina.agregar_paso(
+        "Protección Solar", 
+        "Aplica protector solar FPS 30-50+ cada mañana. ¡Es el paso más importante!",
+        "protector_solar"
+    )
+    
     return rutina
 
-# --- Funciones de Base de Datos (Se mantienen sin cambios) ---
+# --- Funciones de Base de Datos ---
 
 def guardar_perfil_db(perfil: PerfilUsuario) -> bool:
     """Guarda el objeto PerfilUsuario en la base de datos."""
-    # ... (código SQL de guardar_perfil_db se mantiene igual) ...
     conn = get_db_connection()
     if not conn:
         flash("Error crítico: No se pudo conectar a la base de datos.", "error")
@@ -73,11 +161,8 @@ def index():
 @app.route('/procesar', methods=['POST'])
 def procesar_formulario():
     """
-    Recibe datos, guarda perfil, genera rutina de texto y LLAMA AL RECOMENDADOR
-    para obtener los productos reales.
+    Recibe datos, guarda perfil, genera rutina unificada y productos.
     """
-    productos_recomendados = [] # Inicializamos la lista de productos vacía
-    
     try:
         # 1. Extracción y validación básica de datos
         nombre = request.form['nombre']
@@ -94,27 +179,39 @@ def procesar_formulario():
         if not guardar_perfil_db(perfil_usuario):
             return redirect(url_for('index'))
 
-        # 4. Generar la rutina de TEXTO
-        rutina_generada = generar_rutina_texto(perfil_usuario)
+        # 4. Generar la rutina UNIFICADA (nueva función)
+        rutina_personalizada = generar_rutina_unificada(perfil_usuario)
         
-        # 5. Generar los Productos (Llamada a la Ciencia de Datos/Pandas)
-        # ESTE BLOQUE AHORA USA UN TRY/EXCEPT PARA NO DETENER LA APP SI EL CSV FALLA
+        # 5. Generar los Productos Recomendados (USANDO LA NUEVA FUNCIÓN)
         try:
-            productos_recomendados = recommend_products(perfil_usuario.tipo_piel, perfil_usuario.condiciones, limit=6)
+            # Usar la nueva función que se conecta con la rutina
+            productos_recomendados = recommend_products_for_routine(
+                rutina_personalizada, 
+                perfil_usuario.tipo_piel, 
+                perfil_usuario.condiciones
+            )
+            
+            # Asignamos los productos a la rutina
+            rutina_personalizada.productos_recomendados = productos_recomendados
+            
             if not productos_recomendados:
-                 # Mensaje amigable si el algoritmo no encontró nada
-                 flash("Advertencia: El algoritmo de recomendación no encontró productos específicos para su perfil.", "warning")
+                flash("Advertencia: El algoritmo de recomendación no encontró productos específicos para su perfil.", "warning")
         except Exception as e:
-            # Si hay un error con el CSV o Pandas, se registra, pero la APP SIGUE
-            print(f"ERROR CRÍTICO EN PANDAS/CSV: {e}")
-            flash("Advertencia: No se pudieron cargar los productos recomendados. Revisar el archivo de datos (CSV).", "warning")
+            print(f"ERROR en recommend_products_for_routine: {e}")
+            # Fallback a la función original si hay error
+            try:
+                productos_recomendados = recommend_products(perfil_usuario.tipo_piel, perfil_usuario.condiciones, limit=6)
+                rutina_personalizada.productos_recomendados = productos_recomendados
+                flash("Advertencia: Se usó el modo de recomendación básico.", "warning")
+            except Exception as fallback_error:
+                print(f"ERROR en fallback: {fallback_error}")
+                flash("Advertencia: No se pudieron cargar los productos recomendados. Revisar el archivo de datos (CSV).", "warning")
 
-
-        # 6. Mostrar la página de resultados
+        # 6. Mostrar la página de resultados con la rutina unificada
         return render_template('resultados.html', 
                                perfil=perfil_usuario, 
-                               rutina=rutina_generada,
-                               productos=productos_recomendados) # Enviamos la lista (vacía o llena)
+                               rutina=rutina_personalizada,
+                               productos=rutina_personalizada.productos_recomendados)
                                
     except ValueError:
         flash("Error de datos: Asegúrate de que la edad sea un número válido.", "error")
@@ -123,7 +220,6 @@ def procesar_formulario():
         flash(f"Error de formulario: Falta el campo '{e}'. Por favor, completa todos los pasos.", "error")
         return redirect(url_for('index'))
     except Exception as e:
-        # Manejo de cualquier otro error inesperado
         import traceback
         traceback.print_exc()
         flash(f"Ocurrió un error inesperado al procesar tu perfil: {e}", "error")
