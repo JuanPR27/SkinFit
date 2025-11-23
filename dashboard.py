@@ -40,7 +40,7 @@ def create_visualizations():
     # Gráfico 1: Distribución de precios
     try:
         fig_price = px.histogram(
-            df[df['Price'] > 0], 
+            df[df['Price'] < 500], 
             x="Price",
             title="Distribución de Precios",
             nbins=15,
