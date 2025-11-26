@@ -189,7 +189,7 @@
     border-color: var(--indigo-500);
     background: linear-gradient(135deg, var(--indigo-50), var(--purple-50));
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 10px 25px -5px rgba(100, 103, 242, 0.302);
 }
 
 .routine-option-content {
